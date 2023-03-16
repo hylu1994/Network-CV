@@ -7,6 +7,8 @@ About
   * Lu et al., "Visual Analytics of Multivariate Networks with Representation Learning and Composite Variable Construction." Journal of Visual Informatics, forthcoming. The preprint version will be released soon.
 
 * As shown in the above example, the two-class density scatterplot allows us to see the density and class distribution at the same time.
+* [demo video](https://youtu.be/Vro6uFGYBho)
+* [Two-class density scatterplot](https://github.com/takanori-fujiwara/two-class-density-scatterplot) implementation
 
 Requirements
 -----
