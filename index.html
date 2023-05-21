@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel='stylesheet' href='style/style.css'>
+  <title>Visual Interface</title>
+</head>
+
+<body>
+  <div id='col1'>
+    <div id='view-shap'>
+      <div class='view-title'>Attribute Contributions</div>
+      <div id='shap-plot'></div>
+      <div id='opt-measure-select'>
+        Optimization target:
+        <input type='radio' id='pearson' name='opt-measure' value='pearson' checked>
+        <label for='huey'>Pearson's</label>
+        <input type='radio' id='spearman' name='opt-measure' value='spearman'>
+        <label for='dewey'>Spearman's</label>
+      </div>
+      <button id='button-composite' type='button'>Construct New Composite Variable</button>
+    </div>
+    <div id='view-aux'>
+      <div class='view-title'>Auxiliary Information</div>
+      <div id='aux-text'>
+        <p><b>Neural Network Classification</b></p>
+        <p class='indent'>Target Variable: Score Level</p>
+        <p class='indent'>Accuracy: 1.0</p>
+        <p><b>Linear Discriminant Analysis</b></p>
+        <p class='indent'>Class 0: Bottom 25%</p>
+        <p class='indent'>Class 1: Top 25%</p>
+      </div>
+      <div id='aux-legend'></div>
+    </div>
+  </div>
+
+  <div id='col2'>
+    <div id='view-composite'>
+      <div class='view-title'>Representation Assessment</div>
+      <div id='composite-plots'></div>
+    </div>
+  </div>
+
+  <div id='col3'>
+    <div id='view-details'>
+      <div class='view-title'>Relationship to Data</div>
+      <div id='section-network-layout'>
+        <div class='section-title'>Network Layout</div>
+        <div id='network-plot'></div>
+      </div>
+      <div id='section-attr-hist'>
+        <div class='section-title'>Attribute Histogram</div>
+        <div id='plot-attr-hist'></div>
+      </div>
+    </div>
+  </div>
+  <script src='script/main.js' type='module'></script><!-- JavaScript File can be imported like this-->
+</body>
+
+</html>
