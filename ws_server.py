@@ -58,21 +58,16 @@ def to_scatterplot_info(xs, ys, labels, adjust_density=False):
 
 class Message(IntEnum):
     passData = 0
-    passNetworkLayout = 1
 
     @property
     def key(self):
         if self == Message.passData:
             return 'passData'
-        elif self == Message.passNetworkLayout:
-            return 'passNetworkLayout'
 
     @property
     def label(self):
         if self == Message.passData:
             return 'passData'
-        elif self == Message.passNetworkLayout:
-            return 'passNetworkLayout'
 
 
 async def _send(event_loop, executor, ws, args, func):
@@ -223,7 +218,7 @@ def _prepare_data(args):
         })
 
         return json.dumps({
-            'action': Message.passNetworkLayout,
+            'action': Message.passData,
             'type': 'composite',
             'content': comp_json,
             'attr': [attr_names[idx] for idx in attr_indices],
@@ -235,7 +230,7 @@ def _prepare_data(args):
         })
     elif args['type'] == 'network':
         return json.dumps({
-            'action': Message.passNetworkLayout,
+            'action': Message.passData,
             'type': 'network',
             'node': data['nodes'],
             'link': data['links']
@@ -294,9 +289,26 @@ def _prepare_data(args):
             })
 
         return json.dumps({
-            'action': Message.passNetworkLayout,
+            'action': Message.passData,
             'type': 'hist',
             'content': json.dumps(plots)
+        })
+    elif args['type'] == 'auxiliary':
+        info = data['classification_info']
+        classification_info = json.dumps({
+            'targetVariable':
+            info['target_variable'],
+            'class0':
+            info['class_0'],
+            'class1':
+            info['class_1'],
+            'accuracy':
+            info['accuracy']
+        })
+        return json.dumps({
+            'action': Message.passData,
+            'type': 'auxiliary',
+            'content': classification_info
         })
 
 

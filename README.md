@@ -21,8 +21,38 @@ Requirements
 
 Setup
 -----
-### Data Preparation (WIP)
-* Sample data will be provided soon.
+### Data Preparation
+* Refer to `./data/data.json` as a sample dataset.
+
+* Detail information of data structure:
+  * nodes: list of x, y-coordinates for Network Layout and class labels (0: Class 0, 1: Class 1, -1: Others)
+    * e.g., "nodes": [{"x": 0.5, "y": 1.0, "label": 0}, {"x": 0.1, "y": 0.2, "label": 1}, {"x": 0.4, "y": 0.2, "label": -1}]
+  
+  * links: list of source and target node indices
+    * e.g., "links": [{"source": 0, "target": 1}, {"source": 0, "target": 2}]
+
+  * processed_node_indices: list of indices of nodes that are used for classification (i.e., Class 0 and Class 1 nodes) corresponding to the order of the feature matrix rows, representative values, and shap values below.
+    * e.g., "processed_node_indices": [0, 1]
+
+  * attr_values: a feature matrix used for clasisfication (shape: n_processed_node_indices x n_attributes)
+    * e.g., "attr_values": [[0.5, 0.3], [0.4, 0.1]]
+    
+  * attr_names: list of attribute/feature names corresponding to the feature matrix columns.
+    * e.g., "attr_names": ["degree", "eigenvector", "betweenness", "age"]
+
+  * representative_values: 1D representative values for Class 0 and 1 nodes (i.e., x-coodinates for Representation Assessment)
+    * e.g., "representative_values": [0.1, 0.2]
+
+  * shap_values: disctionary of shap values for top-k contributed attributes (i.e., row names for Attribute Contributions and x-coorinates for each of the rows)
+    * e.g., "shap_values": {"degree": [-0.1, 0.3], "age": [0.4, -0.5]}
+
+  * classification_info: classification information displayed in Auxiliary Information
+    * e.g., "classification_info" {
+      "target_variable": "Rank",
+      "class_0": "Top 25%",
+      "class_1": "Bottom 25%",
+      "accuracy": 0.95
+    }
 
 ### Server Setup
 

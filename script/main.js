@@ -10,10 +10,6 @@ import {
   lassoSelection
 } from './lasso.js';
 
-const shapFile = '';
-const nodeFile = '';
-const linkFile = '';
-
 const model = {
   shapCharts: undefined,
   compositeCharts: undefined,
@@ -23,6 +19,7 @@ const model = {
   compositeData: undefined,
   networkData: undefined,
   histData: undefined,
+  classificationInfoData: undefined,
   labelData: undefined,
   orderData: undefined,
   labelColors: {
@@ -80,7 +77,6 @@ const prepareSHAPPlot = (data, xyDomain) => {
   const attrNames = Object.keys(data);
   const nAttrs = attrNames.length;
 
-  // const colors = data[attrNames[0]].map(d => model.labelColors[d.label]);
   const heightI = (height - 45) / nAttrs;
   const attrNameAreaWidth = 180;
   const charts = [];
@@ -97,7 +93,6 @@ const prepareSHAPPlot = (data, xyDomain) => {
       xDomain: xyDomain.x,
       // yDomain: xyDomain.y,
       width: d3.select('#shap-plot').node().getBoundingClientRect().width,
-      // width: 380,
       height: attrName === lastAttrName ? heightI + 25 : heightI,
       marginTop: 5,
       marginLeft: attrNameAreaWidth,
@@ -349,6 +344,13 @@ const prepareHistPlot = (plotsCoord, selected, labels) => {
     .text(d => labelToName(d));
 }
 
+const prepareClassificationInfo = (data) => {
+  d3.select('#target-variable-info').text(data.targetVariable);
+  d3.select('#class0-info').text(data.class0);
+  d3.select('#class1-info').text(data.class1);
+  d3.select('#accuracy-info').text(data.accuracy);
+}
+
 const prepareLasso = (charts) => {
   const lasso = lassoSelection();
   lasso.on('end', () => {
@@ -430,7 +432,12 @@ ws.onopen = event => {
     action: messageActions.passData,
     content: {
       'type': 'shap',
-      'name': shapFile
+    }
+  }));
+  ws.send(JSON.stringify({
+    action: messageActions.passData,
+    content: {
+      'type': 'auxiliary',
     }
   }));
 };
@@ -461,11 +468,10 @@ ws.onmessage = event => {
     ws.send(JSON.stringify({
       action: messageActions.passData,
       content: {
-        'type': 'network',
-        'name_node': nodeFile,
-        'name_link': linkFile
+        'type': 'network'
       }
     }));
+
   } else if (receivedData.type === 'composite') {
     model.compositeData = JSON.parse(receivedData.content);
     model.orderData = receivedData.order;
@@ -536,5 +542,8 @@ ws.onmessage = event => {
   } else if (type === 'hist') {
     model.histData = JSON.parse(receivedData.content);
     prepareHistPlot(model.histData, model.selected, model.labelData);
+  } else if (type === 'auxiliary') {
+    model.classificationInfoData = JSON.parse(receivedData.content);
+    prepareClassificationInfo(model.classificationInfoData);
   }
 };

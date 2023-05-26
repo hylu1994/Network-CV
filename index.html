@@ -23,12 +23,11 @@
     <div id='view-aux'>
       <div class='view-title'>Auxiliary Information</div>
       <div id='aux-text'>
-        <p><b>Neural Network Classification</b></p>
-        <p class='indent'>Target Variable: Score Level</p>
-        <p class='indent'>Accuracy: 1.0</p>
-        <p><b>Linear Discriminant Analysis</b></p>
-        <p class='indent'>Class 0: Bottom 25%</p>
-        <p class='indent'>Class 1: Top 25%</p>
+        <p><b>Classification Information</b></p>
+        <p class='indent'>Target Variable: <span id='target-variable-info'></span></p>
+        <p class='indent'>Class 0: <span id='class0-info'></span></p>
+        <p class='indent'>Class 1: <span id='class1-info'></p>
+        <p class='indent'>NN Accuracy: <span id='accuracy-info'></p>
       </div>
       <div id='aux-legend'></div>
     </div>
@@ -54,7 +53,7 @@
       </div>
     </div>
   </div>
-  <script src='script/main.js' type='module'></script><!-- JavaScript File can be imported like this-->
+  <script src='script/main.js' type='module'></script>
 </body>
 
 </html>
