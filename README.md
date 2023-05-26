@@ -24,6 +24,9 @@ Setup
 ### Data Preparation
 * Refer to `./data/data.json` as a sample dataset.
 
+* `./data/data_preparation.py` provides an example code to prepare a dataset using network representation learning, neural network classification, linear discriminant analysis, and SHAP. 
+  * The sample dataset is made from US Faculty Hiring Netoworks: https://github.com/LarremoreLab/us-faculty-hiring-networks
+
 * Detail information of data structure:
   * nodes: list of x, y-coordinates for Network Layout and class labels (0: Class 0, 1: Class 1, -1: Others)
     * e.g., "nodes": [{"x": 0.5, "y": 1.0, "label": 0}, {"x": 0.1, "y": 0.2, "label": 1}, {"x": 0.4, "y": 0.2, "label": -1}]

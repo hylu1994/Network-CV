@@ -299,7 +299,6 @@ const prepareHistPlot = (plotsCoord, selected, labels) => {
       z: plot.z,
       colors: colors,
       xFormat: d => `${d.toFixed(1)}`,
-      // yFormat: '.2f',
       xLabel: plot.attr_name,
       yLabel: idx === 0 ? 'relative frequency' : null,
       width: width,
@@ -314,7 +313,6 @@ const prepareHistPlot = (plotsCoord, selected, labels) => {
 
   const attrPlot0Svg = d3.select('svg#attrPlot0');
   attrPlot0Svg.append('g')
-    // .attr('transform', `translate(${width-80}, 3)`)
     .attr('transform', `translate(${width - 140}, 3)`)
     .attr('stroke', '#888888')
     .attr('stroke-width', 0.5)
@@ -322,20 +320,15 @@ const prepareHistPlot = (plotsCoord, selected, labels) => {
     .data(selected ? [model.labelColors['selected'], model.labelColors['non-selected']] : [model.labelColors[0], model.labelColors[1]])
     .join('rect')
     .attr('fill', d => d)
-    // .attr('x', 0)
-    // .attr('y', (d, i) => i * 10)
     .attr('x', (d, i) => i * 60)
     .attr('y', (d, i) => i * 0)
     .attr('width', 7)
     .attr('height', 7);
   attrPlot0Svg.append('g')
-    // .attr('transform', `translate(${width-80}, 3)`)
     .attr('transform', `translate(${width - 140}, 3)`)
     .selectAll('text')
     .data(selected ? ['selected', 'non-selected'] : [0, 1])
     .join('text')
-    // .attr('x', 10)
-    // .attr('y', (d, i) => 4 + i * 10)
     .attr('x', (d, i) => 10 + i * 60)
     .attr('y', (d, i) => 4 + i * 0)
     .attr('alignment-baseline', 'middle')
