@@ -229,11 +229,36 @@ def _prepare_data(args):
             'order': order.tolist()
         })
     elif args['type'] == 'network':
+        # reorder nodes for linking in UI
+        nodeidx2shapidx = {}
+        shapidx2nodeidx = {}
+        for shap_idx, node_idx in enumerate(data['processed_node_indices']):
+            nodeidx2shapidx[node_idx] = shap_idx
+            shapidx2nodeidx[shap_idx] = node_idx
+
+        # allocate dummy shap index if node is not in processed_node_indices
+        for node_idx in range(len(data['nodes'])):
+            if not node_idx in nodeidx2shapidx:
+                dummy_shap_idx = len(nodeidx2shapidx)
+                nodeidx2shapidx[node_idx] = dummy_shap_idx
+                shapidx2nodeidx[dummy_shap_idx] = node_idx
+
+        reordered_nodes = []
+        for shap_idx in shapidx2nodeidx.keys():
+            reordered_nodes.append(data['nodes'][shapidx2nodeidx[shap_idx]])
+
+        reordered_links = []
+        for link in data['links']:
+            reordered_links.append({
+                'source': nodeidx2shapidx[link['source']],
+                'target': nodeidx2shapidx[link['target']]
+            })
+
         return json.dumps({
             'action': Message.passData,
             'type': 'network',
-            'node': data['nodes'],
-            'link': data['links']
+            'node': reordered_nodes,
+            'link': reordered_links
         })
     elif args['type'] == 'hist':
         attr_names = data['attr_names']

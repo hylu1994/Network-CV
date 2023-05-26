@@ -21,7 +21,6 @@ const model = {
   histData: undefined,
   classificationInfoData: undefined,
   labelData: undefined,
-  orderData: undefined,
   labelColors: {
     '0': '#fb694a', // matplotlib.cm.Reds(0.5)
     '1': '#6aaed6', // matplotlib.cm.Blues(0.5)
@@ -467,7 +466,6 @@ ws.onmessage = event => {
 
   } else if (receivedData.type === 'composite') {
     model.compositeData = JSON.parse(receivedData.content);
-    model.orderData = receivedData.order;
 
     const chart = prepareCompositePlot(model.compositeData, {
       attr: receivedData.attr,
@@ -476,7 +474,7 @@ ws.onmessage = event => {
       correlationMeasure: receivedData.correlation_measure,
       pval: receivedData.pval,
     }, {
-      order: model.orderData
+      order: receivedData.order
     });
 
     if (!model.compositeCharts) {
