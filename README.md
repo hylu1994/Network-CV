@@ -21,7 +21,27 @@ Requirements
 
 Setup
 -----
-### Data Preparation
+
+### Server Setup
+
+* Download and move to this repository. Then,
+
+    `pip3 install -r requirements.txt`
+
+* Run websocket server:
+
+    `python3 ws_server.py` or `python ws_server.py`
+
+* Run http server. For example, open a new tab in Terminal and then:
+
+    `python3 -m http.server` or  `python -m http.server`
+
+### Client Setup
+
+* Access to the url setup in the http server. For example, if you set an http server with the above command. You can acess with: `http://localhost:8000/`
+
+### Data Preparation (when analyzing your own dataset)
+
 * Refer to `./data/data.json` as a sample dataset.
 
 * `./data/data_preparation.py` provides an example code to prepare a dataset using network representation learning, neural network classification, linear discriminant analysis, and SHAP. 
@@ -56,25 +76,6 @@ Setup
       "class_1": "Bottom 25%",
       "accuracy": 0.95
     }
-
-### Server Setup
-
-* Download and move to this repository. Then,
-
-    `pip3 install -r requirements.txt`
-
-* Run websocket server:
-
-    `python3 ws_server.py` or `python ws_server.py`
-
-* Run http server. For example, open a new tab in Terminal and then:
-
-    `python3 -m http.server` or  `python -m http.server`
-
-### Client Setup
-
-* Access to the url setup in the http server. For example, if you set an http server with the above command. You can acess with: `http://localhost:8000/`
-
 
 How to cite
 -----
