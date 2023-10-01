@@ -4,7 +4,7 @@ About
 -----
 * The implementation of the UI introduced in the paper below:
   
-  * Lu et al., "Visual Analytics of Multivariate Networks with Representation Learning and Composite Variable Construction." Visual Informatics, forthcoming. [arXiv](https://arxiv.org/abs/2303.09590)
+  * Lu et al., "Visual Analytics of Multivariate Networks with Representation Learning and Composite Variable Construction." arXiv:2303.09590, 2023. [arXiv](https://arxiv.org/abs/2303.09590)
 
 * [demo video](https://youtu.be/Vro6uFGYBho)
 * [Two-class density scatterplot](https://github.com/takanori-fujiwara/two-class-density-scatterplot) implementation
@@ -81,4 +81,4 @@ How to cite
 -----
 * If you use the workflow to analyze multivariate networks in your publication, please cite:
 
-  * H.-Y. Lu, T. Fujiwara, M.-Y. Chang, Y.-c. Fu, A. Ynnerman, and K.-L. Ma. “Visual Analytics of Multivariate Networks with Representation Learning and Composite Variable Construction.” Visual Informatics, forthcoming.
+  * H.-Y. Lu, T. Fujiwara, M.-Y. Chang, Y.-c. Fu, A. Ynnerman, and K.-L. Ma. “Visual Analytics of Multivariate Networks with Representation Learning and Composite Variable Construction.” arXiv:2303.09590, 2023.
