@@ -137,21 +137,37 @@ export const scatterplot = (data, {
   const update = (data, {
     mode = 'default',
     selected = [],
-    selectedColor = '#FAE727'
+    selectedColor = '#FAE727',
+    showOnlySelected = false
   } = {}) => {
     if (mode === 'default') {
       svg.selectAll('circle.default')
         .data(I)
         .attr('fill', i => C[i])
+        .attr('opacity', 1)
         .attr('z-index', 0); // This will work after SVG 2 is released
-
+      if (links) {
+        svg.selectAll('line')
+          .data(links)
+          .attr('stroke-opacity', 1);
+      }
       // after SVG 2 is released, the code below should be removed for the performance
       svg.selectAll('circle.decorative').remove();
     } else {
+      const orderedSelected = !order ? selected : order.map(idx => selected[idx]);
       svg.selectAll('circle.default')
         .data(I)
-        .attr('fill', (i, idx) => selected[idx] ? selectedColor : C[i])
-        .attr('z-index', (i, idx) => selected[idx] ? 1 : 0); // This will work after SVG 2 is released
+        .attr('fill', (i, idx) => orderedSelected[idx] ? selectedColor : C[i])
+        .attr('z-index', (i, idx) => orderedSelected[idx] ? 1 : 0); // This will work after SVG 2 is released
+      if (showOnlySelected) {
+        svg.selectAll('circle.default')
+          .attr('opacity', (i, idx) => orderedSelected[idx] ? 1 : 0);
+        if (links) {
+          svg.selectAll('line')
+            .data(links)
+            .attr('stroke-opacity', link => (selected[link[0]] && selected[link[1]]) ? 1 : 0);
+        }
+      }
 
       // after SVG 2 is released, the code below should be removed for the performance
       svg.selectAll('circle.decorative').remove();
@@ -162,8 +178,8 @@ export const scatterplot = (data, {
         .data(I)
         .join('circle')
         .attr('class', 'decorative')
-        .attr('fill', (i, idx) => selected[idx] ? selectedColor : C[i])
-        .attr('opacity', (i, idx) => selected[idx] ? 1 : 0)
+        .attr('fill', (i, idx) => orderedSelected[idx] ? selectedColor : C[i])
+        .attr('opacity', (i, idx) => orderedSelected[idx] ? 1 : 0)
         .attr('cx', i => xScale(X[i]))
         .attr('cy', i => yScale(Y[i]))
         .attr('r', r);

@@ -264,12 +264,23 @@ const prepareNetworkPlot = (nodes, links, {
     .attr('stroke', '#888888')
     .attr('stroke-width', 0.5)
     .selectAll('circle')
-    .data([model.labelColors[0], model.labelColors[1], model.labelColors[-1]])
+    .data([0, 1, -1])
     .join('circle')
-    .attr('fill', d => d)
+    .attr('fill', d => model.labelColors[d])
     .attr('cx', 10)
     .attr('cy', (d, i) => 10 + i * 12)
-    .attr('r', 3);
+    .attr('r', 3)
+    .on('mouseover', (event, d, i) =>
+      network.update(null, {
+        mode: 'selected',
+        selected: labels.map(l => l == d),
+        selectedColor: model.labelColors[d],
+        showOnlySelected: true
+      }))
+    .on('mouseout', (event, d, i) =>
+      network.update(null, {
+        mode: 'default'
+      }));
   networkSvg.append('g')
     .attr('transform', `translate(${width - 80}, 5)`)
     .selectAll('text')
@@ -367,8 +378,7 @@ const prepareLasso = (charts) => {
       for (const chart of charts) {
         chart.update(null, {
           mode: 'selected',
-          selected: !chart.order ?
-            model.selected : chart.order.map(i => model.selected[i]),
+          selected: model.selected,
           selectedColor: model.labelColors.selected
         });
       }
