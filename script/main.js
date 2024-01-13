@@ -258,9 +258,15 @@ const prepareNetworkPlot = (nodes, links, {
   });
   d3.select('#network-plot').append(() => network);
 
-  const networkSvg = d3.select('svg#network');
-  networkSvg.append('g')
-    .attr('transform', `translate(${width - 80}, 5)`)
+  // make new svg to avoid conflict with lasso
+  const networkLegendSvg = d3.select('#network-plot').append('svg').style('position', 'absolute')
+    .style('top', 5)
+    .style('left', width - 80)
+    .attr('width', 80)
+    .attr('height', 50);
+
+  let selectedByLabel = labels.map(l => 0);
+  networkLegendSvg.append('g')
     .attr('stroke', '#888888')
     .attr('stroke-width', 0.5)
     .selectAll('circle')
@@ -270,19 +276,16 @@ const prepareNetworkPlot = (nodes, links, {
     .attr('cx', 10)
     .attr('cy', (d, i) => 10 + i * 12)
     .attr('r', 3)
-    .on('mouseover', (event, d, i) =>
+    .on('click', (event, d, i) => {
+      selectedByLabel = selectedByLabel.map((s, i) => (s + (labels[i] == d)) % 2);
       network.update(null, {
         mode: 'selected',
-        selected: labels.map(l => l == d),
-        selectedColor: model.labelColors[d],
+        selected: selectedByLabel,
+        selectedColor: false,
         showOnlySelected: true
-      }))
-    .on('mouseout', (event, d, i) =>
-      network.update(null, {
-        mode: 'default'
-      }));
-  networkSvg.append('g')
-    .attr('transform', `translate(${width - 80}, 5)`)
+      });
+    })
+  networkLegendSvg.append('g')
     .selectAll('text')
     .data([0, 1, -1])
     .join('text')

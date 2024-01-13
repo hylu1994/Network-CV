@@ -157,7 +157,7 @@ export const scatterplot = (data, {
       const orderedSelected = !order ? selected : order.map(idx => selected[idx]);
       svg.selectAll('circle.default')
         .data(I)
-        .attr('fill', (i, idx) => orderedSelected[idx] ? selectedColor : C[i])
+        .attr('fill', (i, idx) => orderedSelected[idx] ? (selectedColor ? selectedColor : C[i]) : C[i])
         .attr('z-index', (i, idx) => orderedSelected[idx] ? 1 : 0); // This will work after SVG 2 is released
       if (showOnlySelected) {
         svg.selectAll('circle.default')
@@ -178,7 +178,7 @@ export const scatterplot = (data, {
         .data(I)
         .join('circle')
         .attr('class', 'decorative')
-        .attr('fill', (i, idx) => orderedSelected[idx] ? selectedColor : C[i])
+        .attr('fill', (i, idx) => orderedSelected[idx] ? (selectedColor ? selectedColor : C[i]) : C[i])
         .attr('opacity', (i, idx) => orderedSelected[idx] ? 1 : 0)
         .attr('cx', i => xScale(X[i]))
         .attr('cy', i => yScale(Y[i]))
