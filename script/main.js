@@ -265,26 +265,48 @@ const prepareNetworkPlot = (nodes, links, {
     .attr('width', 80)
     .attr('height', 50);
 
-  let selectedByLabel = labels.map(l => 0);
-  networkLegendSvg.append('g')
+  let selectedByLabel = labels.map(l => 1);
+  let selectedLabels = [true, true, true];
+  const checkboxes = networkLegendSvg.append('g')
     .attr('stroke', '#888888')
     .attr('stroke-width', 0.5)
-    .selectAll('circle')
+    .selectAll('rect')
     .data([0, 1, -1])
-    .join('circle')
+    .join('rect')
     .attr('fill', d => model.labelColors[d])
-    .attr('cx', 10)
-    .attr('cy', (d, i) => 10 + i * 12)
-    .attr('r', 3)
-    .on('click', (event, d, i) => {
-      selectedByLabel = selectedByLabel.map((s, i) => (s + (labels[i] == d)) % 2);
-      network.update(null, {
-        mode: 'selected',
-        selected: selectedByLabel,
-        selectedColor: false,
-        showOnlySelected: true
-      });
-    })
+    .attr('x', 6)
+    .attr('y', (d, i) => 5 + i * 12)
+    .attr('width', 8)
+    .attr('height', 8)
+    .attr('rx', 2)
+    .attr('ry', 2);
+  const checkmarks = networkLegendSvg.append('g');
+  checkmarks.selectAll('text')
+    .data(selectedLabels)
+    .join('text')
+    .attr('x', 10)
+    .attr('y', (d, i) => 10 + i * 12)
+    .attr('text-anchor', 'middle')
+    .attr('alignment-baseline', 'middle')
+    .attr('fill', '#444444')
+    .style('font-size', 11)
+    .style('pointer-events', 'none')
+    .text(d => d ? '\u2713' : '');
+  checkboxes.on('click', (event, d) => {
+    selectedByLabel = selectedByLabel.map((s, i) => (s + (labels[i] == d)) % 2);
+    const labelIdx = d >= 0 ? d : 2;
+    selectedLabels[labelIdx] = !selectedLabels[labelIdx];
+    network.update(null, {
+      mode: 'selected',
+      selected: selectedByLabel,
+      selectedColor: false,
+      showOnlySelected: true
+    });
+    checkmarks.selectAll('text')
+      .data(selectedLabels)
+      .text(d => d ? '\u2713' : '');
+  });
+
   networkLegendSvg.append('g')
     .selectAll('text')
     .data([0, 1, -1])
