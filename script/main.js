@@ -186,35 +186,57 @@ const genPrepareCompositePlot = () => {
 
     // append composite variable info
     if (info && info.attr.length > 0) {
-      let varInfo = 'y =';
-      for (let attrIdx = 0; attrIdx < info.attr.length; attrIdx++) {
-        const w = parseFloat(info.weight[attrIdx]).toFixed(1);
-        const weightStr = w >= 0 ? `+${w}` : `${w}`;
-        varInfo += ` ${weightStr}(${info.attr[attrIdx]})`
-      }
+      // let varInfo = 'y =';
+      // for (let attrIdx = 0; attrIdx < info.attr.length; attrIdx++) {
+      //   const w = parseFloat(info.weight[attrIdx]).toFixed(1);
+      //   const weightStr = w >= 0 ? `+${w}` : `${w}`;
+      //   varInfo += `${weightStr}${info.attr[attrIdx]}`
+      // }
       const measure = info.correlationMeasure.charAt(0).toUpperCase() + info.correlationMeasure.slice(1);
-      d3.select(chart).append('text')
+      // d3.select(chart).append('text')
+      //   .attr('x', 10)
+      //   .attr('y', 12)
+      //   .attr('text-anchor', 'start')
+      //   .style('font-family', 'monospace') // 'math'
+      //   .style('font-size', 12)
+      //   .style('fill', '#444444')
+      //   .text(varInfo);
+      const eqText = d3.select(chart).append('text')
         .attr('x', 10)
         .attr('y', 12)
         .attr('text-anchor', 'start')
-        .style('font-size', 12)
-        .style('fill', '#444444')
-        .text(varInfo);
-      d3.select(chart).append('text')
+        .style('font-size', 13)
+        .style('fill', '#444444');
+      eqText.append("svg:tspan").style('font-family', '"STIX Two Text", serif').style('font-size', 15).style('font-style', 'italic').text("y");
+      eqText.append("svg:tspan").style('font-family', '"STIX Two Text", serif').text(" =");
+      for (let attrIdx = 0; attrIdx < info.attr.length; attrIdx++) {
+        const w = parseFloat(info.weight[attrIdx]).toFixed(1);
+        const weightStr = w >= 0 ? ` \u002B ${w} ` : ` \u2212 ${w.slice(1)} `;
+        eqText.append("svg:tspan").style('font-family', '"STIX Two Text", serif').text(weightStr);
+        eqText.append("svg:tspan").style('font-size', 12).text(info.attr[attrIdx]);
+      }
+      const correText = d3.select(chart).append('text')
         .attr('x', 10)
         .attr('y', 27)
         .attr('text-anchor', 'start')
-        .style('font-size', 12)
-        .style('fill', '#444444')
-        .text(`${measure}'s corr.: ${Number(info.correlation).toFixed(3)}, p-val: ${Number(info.pval).toExponential(2)}`);
+        .style('font-size', 13)
+        .style('fill', '#444444');
+      correText.append("svg:tspan").style('font-size', 12).text(`${measure}'s corr.: `);
+      correText.append("svg:tspan").style('font-family', '"STIX Two Text", serif').text(`${Number(info.correlation).toFixed(3)}`);
+      correText.append("svg:tspan").style('font-family', '"STIX Two Text", serif').style('font-style', 'italic').text(', p');
+      correText.append("svg:tspan").style('font-size', 12).text('-val: ');
+      correText.append("svg:tspan").style('font-size', 12).text(`${measure}'s corr.: `);
+      correText.append("svg:tspan").style('font-family', '"STIX Two Text", serif').text(`${Number(info.pval).toExponential(2)}`);
     } else {
-      d3.select(chart).append('text')
+      const splatterText = d3.select(chart).append('text')
         .attr('x', 10)
         .attr('y', 12)
         .attr('text-anchor', 'start')
-        .style('font-size', 12)
-        .style('fill', '#444444')
-        .text('Points are dodged along y-axis');
+        .style('font-size', 13)
+        .style('fill', '#444444');
+      splatterText.append("svg:tspan").style('font-size', 12).text('Points are dodged along ');
+      splatterText.append("svg:tspan").style('font-family', '"STIX Two Text", serif').style('font-style', 'italic').text('y');
+      splatterText.append("svg:tspan").style('font-size', 12).text('-axis');
     }
     const id = counter;
     counter++;
@@ -276,15 +298,15 @@ const prepareNetworkPlot = (nodes, links, {
     .attr('fill', d => model.labelColors[d])
     .attr('x', 6)
     .attr('y', (d, i) => 5 + i * 12)
-    .attr('width', 8)
-    .attr('height', 8)
+    .attr('width', 9)
+    .attr('height', 9)
     .attr('rx', 2)
     .attr('ry', 2);
   const checkmarks = networkLegendSvg.append('g');
   checkmarks.selectAll('text')
     .data(selectedLabels)
     .join('text')
-    .attr('x', 10)
+    .attr('x', 10.5)
     .attr('y', (d, i) => 10 + i * 12)
     .attr('text-anchor', 'middle')
     .attr('alignment-baseline', 'middle')
