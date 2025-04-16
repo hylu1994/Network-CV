@@ -101,7 +101,7 @@ async def _handler(ws, event_loop, executor):
 
 
 def _prepare_data(args):
-    with open("./data/case1.json") as f:
+    with open("./data/data.json") as f:
         data = json.load(f)
 
     if args["type"] == "shap":
